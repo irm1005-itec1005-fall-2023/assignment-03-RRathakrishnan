@@ -44,15 +44,30 @@
 // }
 
 // Initialise an empty array with the variable name todoItems
+let todoItems = [];
+let counter = 0;
 
 // Function to add a todo to the list
 // It should accept a string as a parameter (text of the todo item)
 // and it should add a new todo item to the todoItems array
 // the function does not need to return anything
-function addToDoItem(text) {
-  // Implement the logic to add a task here
 
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+function addToDoItem(text) {
+  if (typeof text !== "string") { // Checks if the type of text is not a string
+    return false; // If not a string, return false
+  }
+
+  // Create a new todo item using the provided text and a counter variable
+  let todo = {
+    id: counter,
+    text: text,
+    completed: false
+  };
+
+  // Push the new todo item to the todoItems array
+  todoItems.push(todo);
+  counter++;// Increment the counter for the next todo item
+  console.log("Todo item was added");
 }
 
 // Function to remove a todo to the list
@@ -60,11 +75,29 @@ function addToDoItem(text) {
 // Loop through the array of todos, and when you find the todo item with the id
 // that matches the id passed to the function, remove it from the array
 // the function does not need to return anything
-function removeToDoItem(todoId) {
   // Implement the logic to add a task here
 
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
-}
+  function removeToDoItem(todoId) {
+    if (!Number.isInteger(todoId)) {
+      return false;
+    }
+
+    let found = false;
+
+    for (let itemIndex = todoItems.length - 1; itemIndex >= 0; itemIndex--) {
+      if (todoItems[itemIndex].id === todoId) {
+        console.log(todoItems);
+        todoItems.splice(itemIndex, 1);
+        console.log(todoItems);
+        found = true;
+        break; // Stop the loop once the item is found and removed
+      }
+    }
+
+    console.log(todoItems);
+    return found;
+  }
+
 
 // Function to mark a task as completed
 // It should accept a number as a parameter (id of the todo item)

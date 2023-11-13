@@ -44,15 +44,30 @@
 // }
 
 // Initialise an empty array with the variable name todoItems
+let todoItems = [];
+let counter = 0;
 
 // Function to add a todo to the list
 // It should accept a string as a parameter (text of the todo item)
 // and it should add a new todo item to the todoItems array
 // the function does not need to return anything
-function addToDoItem(text) {
-  // Implement the logic to add a task here
 
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+function addToDoItem(text) {
+  if (typeof text !== "string") { // Checks if the type of text is not a string
+    return false; // If not a string, return false
+  }
+
+  // Create a new todo item using the provided text and a counter variable
+  let todo = {
+    id: counter,
+    text: text,
+    completed: false
+  };
+
+  // Push the new todo item to the todoItems array
+  todoItems.push(todo);
+  counter++;// Increment the counter for the next todo item
+  console.log("Todo item was added");
 }
 
 // Function to remove a todo to the list
@@ -60,22 +75,59 @@ function addToDoItem(text) {
 // Loop through the array of todos, and when you find the todo item with the id
 // that matches the id passed to the function, remove it from the array
 // the function does not need to return anything
-function removeToDoItem(todoId) {
   // Implement the logic to add a task here
 
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
-}
+  function removeToDoItem(todoId) {
+    if (!Number.isInteger(todoId)) {
+      return false;
+    }
+
+    let found = false;
+
+    for (let itemIndex = todoItems.length - 1; itemIndex >= 0; itemIndex--) {
+      if (todoItems[itemIndex].id === todoId) {
+        console.log(todoItems);
+        todoItems.splice(itemIndex, 1);
+        console.log(todoItems);
+        found = true;
+        break; // Stop the loop once the item is found and removed
+      }
+    }
+
+    console.log(todoItems);
+    return found;
+  }
+
 
 // Function to mark a task as completed
 // It should accept a number as a parameter (id of the todo item)
 // Loop through the array of todos, and when you find the todo item with the id
 // that matches the id passed to the function, set its completed property to true
 // the function does not need to return anything
-function markToDoItemAsCompleted(todoId) {
-  // Implement the logic to mark a task as completed here
 
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+function markToDoItemAsCompleted(todoId) {
+  if (!Number.isInteger(todoId)) {
+    console.error('Error: Input must be an integer');
+    return;
+  }
+
+  let found = false;
+
+ // Implement the logic to mark a task as completed here
+
+  for (let index = 0; index < todoItems.length; index++) {
+    if (todoItems[index].id === todoId) {
+      todoItems[index].completed = true;
+      found = true;
+      break;
+    }
+  }
+
+  if (!found) {
+    console.log(`Task with ID ${todoId} not found`);
+  }
 }
+
 
 // Function to delete a task from the array
 // It should accept a number as a parameter (id of the todo item)
@@ -84,19 +136,54 @@ function markToDoItemAsCompleted(todoId) {
 // the function does not need to return anything, though you can return
 // true or false depending on whether the item was successfully deleted
 function deleteToDoItem(todoId) {
-  // Implement the logic to remove a task here
+  for (let index = 0; index < todoItems.length; index++) {
+    if (todoItems[index].id === todoId) { // Check if the current todo item has the specified id
+      todoItems.splice(index, 1);    // Remove the todo item from the array
 
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+        // Implement the logic to remove a task here
+
+      console.log(`Task with ID ${todoId} deleted`);
+
+      return;
+    }
+  }
+
+  // Log a message if the task with the specified ID was not found
+  console.log(`Task with ID ${todoId} not found`);
 }
+
 
 // Function to clear all completed tasks
 // Loop through the array of todos, and when you find a todo item that is marked
 // as completed, remove it completely from the array
 function clearCompletedTasks() {
-  // Implement the logic to clear completed tasks here
+  const newArray = [];
 
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+  for (let i = 0; i < todoItems.length; i++) {
+    const todo = todoItems[i];
+
+    if (!todo.completed) {
+      newArray.push(todo);
+    }
+  }
+
+
+    // Implement the logic to clear completed tasks here
+    
+  // Log the array before and after the removal
+  console.log("Before:", todoItems);
+  console.log("Removed:", todoItems.filter((todo) => todo.completed));
+
+  // Update the todoItems array with the new array
+  todoItems.length = 0;
+  Array.prototype.push.apply(todoItems, newArray);
+
+  // Log the updated array
+  console.log("After:", todoItems);
 }
+
+
+
 
 // You can write your own tests here if you would like to test
 // your code before using the automated tests
